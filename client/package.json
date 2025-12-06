@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "axios": "^1.13.2",
+    "js-cookie": "^3.0.5",
+    "react-hot": "^0.0.1",
+    "react-hot-toast": "^2.6.0",
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.6"
+  }
+}
