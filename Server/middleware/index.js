@@ -2,9 +2,12 @@ const jwt = require('jsonwebtoken');
 
 const middleware = (req,res,next)=>{
     try {
-        
+        const token = req.headers.authorization.split(' ')[1];
+        const decryptedToken = jwt.verify(token, process.env.JWT_SECRET);
+        req.body.userId = decryptedToken.userId;
+        next();
     } catch (error) {
-        return res.status(500).json({
+        return res.status(401).json({
             success: false,
             message: error.message,
         });
@@ -12,4 +15,4 @@ const middleware = (req,res,next)=>{
     }
 }
 
-module.export = middleware;
+module.exports = middleware;

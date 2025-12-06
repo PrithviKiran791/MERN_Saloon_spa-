@@ -22,7 +22,7 @@ function App() {
         <Route path="/login" element={<PublicLayout><Loginpage/></PublicLayout>}></Route>
         <Route path="/register" element={<PublicLayout><Registerpage/></PublicLayout>}></Route>
         <Route path="/user/dashboard" element={<PrivateLayout><UserDashboardPage/></PrivateLayout>}></Route>
-        <Route path="/owner/dashboard" element={<OwnerDashboardPage/>}></Route>
+        <Route path="/owner/dashboard" element={<PrivateLayout><OwnerDashboardPage/></PrivateLayout>}></Route>
       </Routes>
     </BrowserRouter>
   );

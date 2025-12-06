@@ -46,7 +46,7 @@ router.post('/login',async (req,res) => {
             })
         }
 
-        const isPasswordvald = await bcrypt.compare(req.body.password,user.password);
+        const isPasswordvalid = await bcrypt.compare(req.body.password,user.password);
         if(!isPasswordvalid){
             return res.status(400).json({
                 success: false,
@@ -81,7 +81,7 @@ router.post('/login',async (req,res) => {
     }
 });
 
-router.get('get-logged-in-user', middleware,async (req,res) => {
+router.get('/get-logged-in-user', middleware,async (req,res) => {
     try {
         const userId = req.body.userId;
         const user = await UserModel.findById(userId).select("-password");

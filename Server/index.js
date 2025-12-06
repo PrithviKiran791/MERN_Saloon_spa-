@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const path = require('path');
 const cors = require('cors');
 const connectMongoDB = require("./config/mongodb-config.js");
+var cookieParser = require('cookie-parser');
 
 // load .env located next to this file (Server/.env), regardless of process.cwd()
 dotenv.config({ path: path.join(__dirname, '.env') });
@@ -21,7 +22,6 @@ app.use(cors({
 
 // Load routes
 const userRoute = require("./routes/user-routes");
-var cookieParser = require('cookie-parser');
 
 app.use("/api/users", userRoute);
 
