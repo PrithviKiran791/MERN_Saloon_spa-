@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,16 +15,20 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LogIn } from "lucide-react";
+import { backendUrl } from "@/constants/indes";
+import Cookies from "js-cookie";
 
 const formSchema = z.object({
   email: z.string().trim().email("Invalid email address").max(255),
   password: z.string().min(6, "Password must be at least 6 characters long"),
-  role: z.enum(["user", "Admin"]),
+  role: z.enum(["user", "owner"]),
 });
 
 function LoginPage() {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,8 +38,24 @@ function LoginPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setLoading(true);
+      const response = await axios.post(`${backendUrl}/user/login`, values);
+      if (!response.data.success) {
+        throw new Error(response.data.message || "Login failed");
+      }
+      const { data } = response.data;
+      Cookies.set("token",data);
+      Cookies.set("token",response.data.role);
+      console.log("Login successful. Token:", data);
+      toast.success("Login successful!");
+      navigate(`/${response.data.role}/dashboard`);
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "An error occurred during login.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -56,12 +79,14 @@ function LoginPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium">Email Address</FormLabel>
+                  <FormLabel className="text-sm font-medium">
+                    Email Address
+                  </FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="name@example.com" 
-                      className="h-11 transition-smooth focus:ring-2 focus:ring-primary/20" 
-                      {...field} 
+                    <Input
+                      placeholder="name@example.com"
+                      className="h-11 transition-smooth focus:ring-2 focus:ring-primary/20"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
@@ -74,13 +99,15 @@ function LoginPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium">Password</FormLabel>
+                  <FormLabel className="text-sm font-medium">
+                    Password
+                  </FormLabel>
                   <FormControl>
-                    <Input 
-                      type="password" 
-                      placeholder="••••••••" 
-                      className="h-11 transition-smooth focus:ring-2 focus:ring-primary/20" 
-                      {...field} 
+                    <Input
+                      type="password"
+                      placeholder="••••••••"
+                      className="h-11 transition-smooth focus:ring-2 focus:ring-primary/20"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
@@ -93,7 +120,9 @@ function LoginPage() {
               name="role"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="text-sm font-medium">Select Role</FormLabel>
+                  <FormLabel className="text-sm font-medium">
+                    Select Role
+                  </FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -111,10 +140,10 @@ function LoginPage() {
 
                       <FormItem className="flex items-center space-x-2 space-y-0">
                         <FormControl>
-                          <RadioGroupItem value="Admin" />
+                          <RadioGroupItem value="owner" />
                         </FormControl>
                         <FormLabel className="font-normal cursor-pointer">
-                          Admin
+                          Owner
                         </FormLabel>
                       </FormItem>
                     </RadioGroup>
@@ -127,18 +156,19 @@ function LoginPage() {
             <div className="flex items-center justify-between gap-4 pt-2">
               <p className="text-sm text-muted-foreground">
                 Don't have an account?{" "}
-                <Link 
-                  to="/register" 
+                <Link
+                  to="/register"
                   className="text-primary font-medium underline hover:underline transition-smooth font-semibold"
                 >
                   Register
                 </Link>
               </p>
-              <Button 
-                type="submit" 
-                className="transition-smooth hover:scale-105 shadow-md "
+              <Button
+                type="submit"
+                disabled={loading}
+                className="transition-smooth hover:scale-105 shadow-md"
               >
-                Submit
+                {loading ? "Submitting..." : "Submit"}
               </Button>
             </div>
           </form>

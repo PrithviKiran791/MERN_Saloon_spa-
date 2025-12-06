@@ -12,8 +12,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { UserPlus } from "lucide-react";
+import { toast } from "sonner";
+import axios from "axios";
+import { useState } from "react";
+import { backendUrl } from "@/constants/indes";
 
 const formSchema = z
   .object({
@@ -33,6 +38,8 @@ const formSchema = z
   });
 
 function RegisterPage() {
+  const [loading, setloading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,8 +51,28 @@ function RegisterPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  const isSubmitting = loading;
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setloading(true);
+      const response = await axios.post(
+        `${backendUrl}/users/register`,
+        values
+      );
+      if (response.data.success) {
+        toast.success("Registration successful! Please login.");
+        form.reset();
+      } else {
+        toast.error(response.data.message || "Registration failed!");
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Something went wrong!";
+      toast.error(errorMessage);
+    } finally {
+      setloading(false);
+    }
   }
 
   return (
@@ -60,7 +87,7 @@ function RegisterPage() {
           </h1>
         </div>
 
-        <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        <div className="h-px bg-linear-to-r from-transparent via-border to-transparent" />
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -151,9 +178,8 @@ function RegisterPage() {
               name="role"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="text-sm font-medium">
-                    Select Role
-                  </FormLabel>
+                  {/* Use plain text instead of FormLabel to avoid invalid <label for> */}
+                  <p className="text-sm font-medium">Select Role</p>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -162,20 +188,26 @@ function RegisterPage() {
                     >
                       <FormItem className="flex items-center space-x-2 space-y-0">
                         <FormControl>
-                          <RadioGroupItem value="user" />
+                          <RadioGroupItem value="user" id="role-user" />
                         </FormControl>
-                        <FormLabel className="font-normal cursor-pointer">
+                        <Label
+                          htmlFor="role-user"
+                          className="font-normal cursor-pointer"
+                        >
                           User
-                        </FormLabel>
+                        </Label>
                       </FormItem>
 
                       <FormItem className="flex items-center space-x-2 space-y-0">
                         <FormControl>
-                          <RadioGroupItem value="Admin" />
+                          <RadioGroupItem value="Admin" id="role-admin" />
                         </FormControl>
-                        <FormLabel className="font-normal cursor-pointer">
+                        <Label
+                          htmlFor="role-admin"
+                          className="font-normal cursor-pointer"
+                        >
                           Admin
-                        </FormLabel>
+                        </Label>
                       </FormItem>
                     </RadioGroup>
                   </FormControl>
@@ -189,17 +221,18 @@ function RegisterPage() {
                 Already have an account?{" "}
                 <Link
                   to="/login"
-                  className="font-medium underline hover:underline transition-smooth font-semibold text-black"
+                  className="font-semibold underline hover:underline transition-smooth text-black"
                 >
                   Login
                 </Link>
               </p>
               <Button
                 type="submit"
+                disabled={isSubmitting}
                 variant="secondary"
                 className="transition-smooth hover:scale-105 shadow-md to-background-black"
               >
-                Register
+                {isSubmitting ? "Registering..." : "Register"}
               </Button>
             </div>
           </form>
