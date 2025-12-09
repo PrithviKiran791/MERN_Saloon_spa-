@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Homepage from "@/pages/public/home";
 import Loginpage from "./pages/public/login";
 import Registerpage from "./pages/public/register";
@@ -18,11 +18,13 @@ function App() {
         richColors
       />
       <Routes>
+        <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<PublicLayout><Homepage/></PublicLayout>}></Route>
         <Route path="/login" element={<PublicLayout><Loginpage/></PublicLayout>}></Route>
         <Route path="/register" element={<PublicLayout><Registerpage/></PublicLayout>}></Route>
         <Route path="/user/dashboard" element={<PrivateLayout><UserDashboardPage/></PrivateLayout>}></Route>
         <Route path="/owner/dashboard" element={<PrivateLayout><OwnerDashboardPage/></PrivateLayout>}></Route>
+        <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
     </BrowserRouter>
   );

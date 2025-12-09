@@ -8,8 +8,13 @@ function PublicLayout({ children } : {children: React.ReactNode}) {
     useEffect(() => {
     if(Cookies.get("token")) {
         const role = Cookies.get('role');
-        navigate(`/${role}/dashboard`)
-
+        if(role && (role === 'user' || role === 'owner')) {
+            navigate(`/${role}/dashboard`);
+        } else {
+            // Clear invalid cookies and stay on public page
+            Cookies.remove('token');
+            Cookies.remove('role');
+        }
     }
     setloading(false);
 

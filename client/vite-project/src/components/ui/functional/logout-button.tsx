@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { Button } from "../button";
+import { Button } from "../ui/button";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 

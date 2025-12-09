@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/ui/button";
 import {
   Form,
   FormControl,
@@ -12,9 +12,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+} from "@/components/ui/ui/form";
+import { Input } from "@/components/ui/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/ui/radio-group";
 import { Link, useNavigate } from "react-router-dom";
 import { LogIn } from "lucide-react";
 import { backendUrl } from "@/constants/indes";

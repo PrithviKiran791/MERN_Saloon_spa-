@@ -1,13 +1,10 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/ui/button";
 import { Link } from "react-router-dom";
 import logoImage from "@/assets/logo.jpeg";
-import HairParticles from "@/components/ui/HairParticles";
 
 function Homepage() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-background">
-      <HairParticles />
-
       <div className="relative z-10 flex flex-col min-h-screen">
         <header className="px-8 py-4">
           <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -46,8 +43,8 @@ function Homepage() {
                 </p>
                 <div>
                   <Button
-  size="lg"
-  className="
+                    size="lg"
+                    className="
     bg-primary 
     text-primary-foreground 
     hover:bg-primary/90 
@@ -56,9 +53,9 @@ function Homepage() {
     shadow-soft 
     hover:shadow-hover
   "
->
-  Get Started
-</Button>
+                  >
+                    Get Started
+                  </Button>
                 </div>
               </div>
 

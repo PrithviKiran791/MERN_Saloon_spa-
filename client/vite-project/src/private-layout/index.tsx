@@ -1,11 +1,11 @@
 import { backendUrl } from "../constants/indes";
-import usersGlobalStore, { type IUsersStore } from "@/store/users-store";
+import usersGlobalStore, { type IUsersStore } from "../store/users-store";
 import axios from "axios";
 import React from "react";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import Spinner from "@/components/spinner";
+import Spinner from "../components/ui/ui/spinner";
 
 axios.defaults.withCredentials = true;
 

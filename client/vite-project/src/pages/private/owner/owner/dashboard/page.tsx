@@ -1,25 +1,19 @@
-import type {Iuser} from '@/interfaces';
-import usersGlobalStore from "@/store/users-store"
+import useUserGlobalStore, { type IUsersStore } from "@/store/users-store";
+
 function OwnerDashboardPage() {
-    const {user} = usersGlobalStore() as Iuser;
-    return (
-        <div className="flex flex-col gap-5">OwnerDashboardPage
-        <h1>Dashboard page</h1>
-        <h1>
-            UserName : {user._id}
-        </h1>
-        <h1>
-            User Name: {user.name}
-        </h1>
-        <h1>
-            User Email:{user.email}
-        </h1>
-        <h1>
-            User Role: {user.role}
-        </h1>
+  const { user } = useUserGlobalStore() as IUsersStore;
+  if (!user) return <></>;
+
+  return (
+    <div className="flex flex-col gap-5">
+      OwnerDashboardPage
+      <h1>Dashboard page</h1>
+      <h1>UserName : {user._id}</h1>
+      <h1>User Name: {user.name}</h1>
+      <h1>User Email:{user.email}</h1>
+      <h1>User Role: {user.role}</h1>
     </div>
-    
-    )
+  );
 }
 
 export default OwnerDashboardPage;
