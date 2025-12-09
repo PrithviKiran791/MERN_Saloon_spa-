@@ -1,4 +1,4 @@
-import userGlobalStore from "@/store/users-store"
+import userGlobalStore from "@/store/users-store";
 function OwnerDashboardPage() {
     const {user} = userGlobalStore();
     return (
