@@ -1,6 +1,6 @@
-import userGlobalStore, { type IUsersStore } from "@/store/users-store"
+import userGlobalStore from "@/store/users-store"
 function OwnerDashboardPage() {
-    const {user} = userGlobalStore() as IUsersStore;
+    const {user} = userGlobalStore();
     return (
         <div className="flex flex-col gap-5">OwnerDashboardPage
         <h1>Dashboard page</h1>
