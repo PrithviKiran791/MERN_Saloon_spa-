@@ -1,8 +1,8 @@
-import userGlobalStore, { type IUsersStore } from "@/store/users-store";
+import userGlobalStore from "@/store/users-store";
 import LogoutButton from "@/components/ui/functional/logout-button";
 
 function UserDashboardPage() {
-  const { user } = usersGlobalStore() as IUsersStore;
+  const { user } = userGlobalStore();
   if (!user) return <></>;
   return (
     <div className="flex flex-col gap-5">

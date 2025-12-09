@@ -1,7 +1,6 @@
-import type {Iuser} from '@/interfaces';
-import usersGlobalStore from "@/store/users-store"
+import userGlobalStore from "@/store/users-store";
 function OwnerDashboardPage() {
-    const {user} = usersGlobalStore() as Iuser;
+    const {user} = userGlobalStore();
     return (
         <div className="flex flex-col gap-5">OwnerDashboardPage
         <h1>Dashboard page</h1>
