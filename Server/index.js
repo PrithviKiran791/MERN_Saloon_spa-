@@ -13,17 +13,20 @@ connectMongoDB();
 
 app.use(express.json());
 app.use(cookieParser())
-// Configure CORS - Simple version
+// Configure CORS - Allow multiple localhost ports
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Load routes
 const userRoute = require("./routes/user-routes");
+const salonsRoute = require("./routes/salons-routes.js");
 
 app.use("/api/users", userRoute);
+app.use("/api/salons", salonsRoute);
 
 const port = process.env.PORT || 5000;
 

@@ -8,13 +8,8 @@ function PublicLayout({ children } : {children: React.ReactNode}) {
     useEffect(() => {
     if(Cookies.get("token")) {
         const role = Cookies.get('role');
-        if(role && (role === 'user' || role === 'owner')) {
-            navigate(`/${role}/dashboard`);
-        } else {
-            // Clear invalid cookies and stay on public page
-            Cookies.remove('token');
-            Cookies.remove('role');
-        }
+        navigate(`/${role}/dashboard`)
+
     }
     setloading(false);
 
@@ -22,11 +17,11 @@ function PublicLayout({ children } : {children: React.ReactNode}) {
 
     if(loading){
     return (
-        <div className="flex justify-center items-center h-screen">
-            {children}
+        <div className="flex justify-center items-center h-screen animate-gradient-bg">
+            <div className="spinner w-12 h-12"></div>
         </div>
     );
 }
-return <div>{children}</div>;
+return <div className="min-h-screen">{children}</div>;
 }
 export default PublicLayout 

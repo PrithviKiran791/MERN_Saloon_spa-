@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,9 +12,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/ui/form";
-import { Input } from "@/components/ui/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/ui/radio-group";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Link, useNavigate } from "react-router-dom";
 import { LogIn } from "lucide-react";
 import { backendUrl } from "@/constants/indes";
@@ -41,13 +41,13 @@ function LoginPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true);
-      const response = await axios.post(`${backendUrl}/user/login`, values);
+      const response = await axios.post(`${backendUrl}/users/login`, values);
       if (!response.data.success) {
         throw new Error(response.data.message || "Login failed");
       }
       const { data } = response.data;
-      Cookies.set("token",data);
-      Cookies.set("token",response.data.role);
+      Cookies.set("token", data);
+      Cookies.set("role", response.data.role);
       console.log("Login successful. Token:", data);
       toast.success("Login successful!");
       navigate(`/${response.data.role}/dashboard`);
@@ -60,7 +60,7 @@ function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center animate-gradient-bg p-4">
-      <div className="bg-card rounded-2xl shadow-soft hover:shadow-hover transition-smooth p-8 flex flex-col gap-6 border border-border/50 w-full max-w-md backdrop-blur-sm">
+      <div className="bg-white rounded-2xl shadow-soft hover:shadow-hover transition-smooth p-8 flex flex-col gap-6 border border-border/50 w-full max-w-md">
         <div className="flex items-center justify-center gap-3">
           <div className="p-3 rounded-xl bg-primary/10">
             <LogIn className="w-6 h-6 text-primary" />
@@ -70,7 +70,7 @@ function LoginPage() {
           </h1>
         </div>
 
-        <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        <div className="h-px bg-linear-to-r from-transparent via-border to-transparent" />
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -158,7 +158,7 @@ function LoginPage() {
                 Don't have an account?{" "}
                 <Link
                   to="/register"
-                  className="text-primary font-medium underline hover:underline transition-smooth font-semibold"
+                  className="text-primary underline hover:underline transition-smooth font-semibold"
                 >
                   Register
                 </Link>

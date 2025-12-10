@@ -37,7 +37,14 @@ router.post('/register', async (req, res) => {
 
 router.post('/login',async (req,res) => {
     try{
-        const userId = req.userId;
+        // Validate JWT_SECRET exists
+        if(!process.env.JWT_SECRET){
+            return res.status(500).json({
+                success: false,
+                message: "JWT_SECRET is not configured. Please set it in your .env file.",
+            })
+        }
+
         const user = await UserModel.findOne({email : req.body.email});
         if(!user){
             return res.status(400).json({
@@ -53,18 +60,20 @@ router.post('/login',async (req,res) => {
                 message: "Invalid password",
             });
         }
-        // Jwt token generation can be added here for session managamenet 
+        
         if(user.role !== req.body.role){
             return res.status(400).json({
                 success: false,
                 message: `You do not have ${req.body.role} access`,
             })
         }
+        
         const token = jwt.sign(
             {userId: user._id,email:user.email},
             process.env.JWT_SECRET,
             {expiresIn: "1d"}
         );
+        
         return res.status(200).json({
             success: true,
             message: "Login successfully",
@@ -73,17 +82,17 @@ router.post('/login',async (req,res) => {
         })
 
     }catch(error){
-
+        console.error("Login error:", error);
         return res.status(500).json({
             success: false,
-            message: error.message,
+            message: error.message || "An error occurred during login",
         })
     }
 });
 
 router.get('/get-logged-in-user', middleware,async (req,res) => {
     try {
-        const userId = req.body.userId;
+        const userId = req.userId;
         const user = await UserModel.findById(userId).select("-password");
         if(!user){
             return res.status(404).json({
@@ -94,7 +103,7 @@ router.get('/get-logged-in-user', middleware,async (req,res) => {
         return res.status(200).json({
             success: true,
             message: "User fetched successfully",
-            data: user,
+            user: user,
         })
     } catch (error) {
         return res.status(500).json({

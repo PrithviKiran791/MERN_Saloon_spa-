@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,10 +9,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/ui/form";
-import { Input } from "@/components/ui/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/ui/radio-group";
-import { Label } from "@/components/ui/ui/label";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { UserPlus } from "lucide-react";
 import { toast } from "sonner";
@@ -30,7 +30,7 @@ const formSchema = z
     email: z.string().trim().email("Invalid email address").max(255),
     password: z.string().min(6, "Password must be at least 6 characters long"),
     confirmPassword: z.string().min(6, "Please confirm your password"),
-    role: z.enum(["user", "Admin"]),
+    role: z.enum(["user", "owner"]),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -77,17 +77,17 @@ function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center animate-gradient-bg p-4">
-      <div className="bg-card rounded-2xl shadow-soft hover:shadow-hover transition-smooth p-8 flex flex-col gap-6 border border-border/50 w-full max-w-md backdrop-blur-sm">
-        <div className="flex items-center justify-center gap-3">
-          <div className="p-3 rounded-xl bg-secondary/10">
+      <div className="bg-card rounded-2xl shadow-soft hover:shadow-hover transition-all-smooth p-8 flex flex-col gap-6 border border-border/50 w-full max-w-md backdrop-blur-glass animate-scale-in card-hover">
+        <div className="flex items-center justify-center gap-3 animate-fade-in">
+          <div className="p-3 rounded-xl bg-secondary/10 hover-scale">
             <UserPlus className="w-6 h-6 text-secondary" />
           </div>
-          <h1 className="text-3xl font-bold text-foreground tracking-tight">
+          <h1 className="text-3xl font-bold text-foreground tracking-tight text-shadow">
             Create a new Account
           </h1>
         </div>
 
-        <div className="h-px bg-linear-to-r from-transparent via-border to-transparent" />
+        <div className="divider" />
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -102,7 +102,7 @@ function RegisterPage() {
                   <FormControl>
                     <Input
                       placeholder="John Doe"
-                      className="h-11 transition-smooth focus:ring-2 focus:ring-secondary/20"
+                      className="h-11 transition-all-smooth input-focus"
                       {...field}
                     />
                   </FormControl>
@@ -122,7 +122,7 @@ function RegisterPage() {
                   <FormControl>
                     <Input
                       placeholder="name@example.com"
-                      className="h-11 transition-smooth focus:ring-2 focus:ring-secondary/20"
+                      className="h-11 transition-all-smooth input-focus"
                       {...field}
                     />
                   </FormControl>
@@ -143,7 +143,7 @@ function RegisterPage() {
                     <Input
                       type="password"
                       placeholder="••••••••"
-                      className="h-11 transition-smooth focus:ring-2 focus:ring-secondary/20"
+                      className="h-11 transition-all-smooth input-focus"
                       {...field}
                     />
                   </FormControl>
@@ -164,7 +164,7 @@ function RegisterPage() {
                     <Input
                       type="password"
                       placeholder="••••••••"
-                      className="h-11 transition-smooth focus:ring-2 focus:ring-secondary/20"
+                      className="h-11 transition-all-smooth input-focus"
                       {...field}
                     />
                   </FormControl>
@@ -200,13 +200,13 @@ function RegisterPage() {
 
                       <FormItem className="flex items-center space-x-2 space-y-0">
                         <FormControl>
-                          <RadioGroupItem value="Admin" id="role-admin" />
+                          <RadioGroupItem value="owner" id="role-owner" />
                         </FormControl>
                         <Label
-                          htmlFor="role-admin"
+                          htmlFor="role-owner"
                           className="font-normal cursor-pointer"
                         >
-                          Admin
+                          Owner
                         </Label>
                       </FormItem>
                     </RadioGroup>
@@ -230,9 +230,16 @@ function RegisterPage() {
                 type="submit"
                 disabled={isSubmitting}
                 variant="secondary"
-                className="transition-smooth hover:scale-105 shadow-md to-background-black"
+                className="transition-all-smooth hover-scale shadow-md hover:shadow-glow btn-glow"
               >
-                {isSubmitting ? "Registering..." : "Register"}
+                {isSubmitting ? (
+                  <span className="flex items-center gap-2">
+                    <span className="spinner w-4 h-4"></span>
+                    Registering...
+                  </span>
+                ) : (
+                  "Register"
+                )}
               </Button>
             </div>
           </form>

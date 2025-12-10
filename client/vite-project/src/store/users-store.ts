@@ -1,16 +1,16 @@
-import type { Iuser } from '../interfaces';
 import { create } from 'zustand';
+import type { Iuser } from '../interfaces/index';
 
-// Define and export the store's interface
-export interface IUsersStore {
+interface UsersState {
   user: Iuser | null;
-  setUser: (payload: Iuser) => void;
+  setUser: (payload: Iuser | null) => void;
 }
 
-// Create the store with the defined interface
-const useUserGlobalStore = create<IUsersStore>((set) => ({
-  user : null,
-  setUser: (payload:Iuser) => set({ user: payload }),
+const store = create<UsersState>((set) => ({
+  user: null,
+  setUser: (payload: Iuser | null) => set({ user: payload }),
 }));
 
-export default useUserGlobalStore;
+export const useUsersStore = store;
+export default useUsersStore;
+export type { UsersState as IUsersStore };
