@@ -6,7 +6,7 @@ function Homepage() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden animate-gradient-bg">
       <div className="relative z-10 flex flex-col min-h-screen">
-        <header className="px-8 py-6 bg-purple-600">
+        <header className="px-8 py-6 bg-primary">
           <div className="max-w-7xl mx-auto flex justify-between items-center">
             <h1 className="text-3xl font-bold text-white tracking-wider animate-fade-in">
               S.H.E.Y

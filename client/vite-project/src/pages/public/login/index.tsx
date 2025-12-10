@@ -131,18 +131,18 @@ function LoginPage() {
                     >
                       <FormItem className="flex items-center space-x-2 space-y-0">
                         <FormControl>
-                          <RadioGroupItem value="user" />
+                          <RadioGroupItem value="user" id="role-user" />
                         </FormControl>
-                        <FormLabel className="font-normal cursor-pointer">
+                        <FormLabel htmlFor="role-user" className="font-normal cursor-pointer">
                           User
                         </FormLabel>
                       </FormItem>
 
                       <FormItem className="flex items-center space-x-2 space-y-0">
                         <FormControl>
-                          <RadioGroupItem value="owner" />
+                          <RadioGroupItem value="owner" id="role-owner" />
                         </FormControl>
-                        <FormLabel className="font-normal cursor-pointer">
+                        <FormLabel htmlFor="role-owner" className="font-normal cursor-pointer">
                           Owner
                         </FormLabel>
                       </FormItem>
