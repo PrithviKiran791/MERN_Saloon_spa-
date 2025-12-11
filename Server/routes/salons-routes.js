@@ -5,7 +5,10 @@ const SalonModel = require("../models/salon-model");
 router.post('/create-salon', middleware, async (req, res) => {
 
 try{
-    await SalonModel.create(req.body);
+    await SalonModel.create({
+        ...req.body,
+        owner: req.userId,
+    });
     return res.status(201).json({
         success:true,
         message:"Salon created successfully"
@@ -82,46 +85,45 @@ router.delete("/delete-salon-by-id/:id",middleware,async(req,res) =>{
     }
 });
 //update salon by id 
-router.put("/update-salon-by-id/:id",middleware,async(res,req) => {
-    try{
-        const salonId = req.paramas.id;
+router.put("/update-salon-by-id/:id", middleware, async (req, res) => {
+    try {
+        const salonId = req.params.id;
         const salon = await SalonModel.findById(salonId);
-        if(!salon){
+        if (!salon) {
             return res.status(404).json({
-                success:false,
-                message:"Salon not found",
+                success: false,
+                message: "Salon not found",
             });
         }
-        const updatedSalon = await SalonModel.findByIdAndUpdate(salonId,req.body,{
-            new:true,
+        const updatedSalon = await SalonModel.findByIdAndUpdate(salonId, req.body, {
+            new: true,
         });
         return res.status(200).json({
-            success:true,
-            message:"Salon update successfully",
-            data:updatedSalon,
+            success: true,
+            message: "Salon updated successfully",
+            data: updatedSalon,
         });
-    }catch(error){
+    } catch (error) {
         return res.status(500).json({
-            success:false,
-            message:error.message,
+            success: false,
+            message: error.message,
         });
     }
 });
 //get all salons (public route)
-router.get("/get-all-salons",async(req,res) => {
-    try{
+router.get("/get-all-salons", async (req, res) => {
+    try {
         const salons = await SalonModel.find({
-            isActivate:true,
-
+            isActive: true,
         });
         return res.status(200).json({
-            success:true,
-            data:salons,
+            success: true,
+            data: salons,
         });
-    }catch(error){
+    } catch (error) {
         return res.status(500).json({
-            success:false,
-            message:error.message,
+            success: false,
+            message: error.message,
         });
     }
 });

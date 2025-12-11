@@ -1,4 +1,4 @@
-import { backendUrl } from "../constants/indes";
+import { backendUrl } from "../constants";
 import useUsersStore from "@/store/users-store";
 import axios from "axios";
 import { useState, useEffect, type ReactNode } from "react";
@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import Header from "./header";
 import MenuItems from "./menu-items";
+import { useRouteLoading } from "@/hooks/useRouteLoading";
 
 function PrivateLayout({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState<boolean>(true);
+  const isRouteLoading = useRouteLoading();
   const setUser = useUsersStore((state) => state.setUser);
   const navigate = useNavigate();
 
@@ -89,6 +91,17 @@ function PrivateLayout({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-background">
       <Header />
       <MenuItems />
+      
+      {/* Route Loading Overlay */}
+      {isRouteLoading && (
+        <div className="fixed inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center pointer-events-none">
+          <div className="flex flex-col items-center gap-3">
+            <div className="spinner w-10 h-10 border-3 border-black border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-sm font-medium text-black/70">Loading...</p>
+          </div>
+        </div>
+      )}
+      
       <div className="ml-64 pt-20 p-8">
         {children}
       </div>

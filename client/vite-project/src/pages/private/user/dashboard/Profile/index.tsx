@@ -1,11 +1,14 @@
+import UserProfileCard from "@/components/functional/user-profile-card"
+import PageTitle from "@/components/ui/page-title"
+
 function UserProfilePage() {
   return (
-    <div className="flex flex-col gap-5">
-      <div className="bg-card p-6 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold">User Profile</h1>
-      </div>
+    <div>
+      <PageTitle title="User Profile" />
+
+      <UserProfileCard />
     </div>
-  );
+  )
 }
 
-export default UserProfilePage;
+export default UserProfilePage

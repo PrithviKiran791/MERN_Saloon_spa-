@@ -24,9 +24,11 @@ app.use(cors({
 // Load routes
 const userRoute = require("./routes/user-routes");
 const salonsRoute = require("./routes/salons-routes.js");
+const bookingsRoute = require("./routes/bookings-routes.js");
 
 app.use("/api/users", userRoute);
 app.use("/api/salons", salonsRoute);
+app.use("/api/bookings", bookingsRoute);
 
 const port = process.env.PORT || 5000;
 

@@ -17,8 +17,9 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Link, useNavigate } from "react-router-dom";
 import { LogIn } from "lucide-react";
-import { backendUrl } from "@/constants/indes";
+import { backendUrl } from "@/constants";
 import Cookies from "js-cookie";
+import { WritingText } from "@/components/ui/shadcn-io/writing-text";
 
 const formSchema = z.object({
   email: z.string().trim().email("Invalid email address").max(255),
@@ -59,18 +60,34 @@ function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center animate-gradient-bg p-4">
-      <div className="bg-white rounded-2xl shadow-soft hover:shadow-hover transition-smooth p-8 flex flex-col gap-6 border border-border/50 w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-transparent">
+      {/* Back to Home Button */}
+      <Link
+        to="/"
+        className="fixed top-8 left-8 px-4 py-2 rounded-lg border border-white/30 bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-all hover:scale-105"
+      >
+        ← Back to Home
+      </Link>
+
+      <div className="w-full max-w-md rounded-2xl border border-white/30 bg-white/5 backdrop-blur-lg shadow-lg shadow-black/30 p-8 flex flex-col gap-6 text-white">
         <div className="flex items-center justify-center gap-3">
-          <div className="p-3 rounded-xl bg-primary/10">
-            <LogIn className="w-6 h-6 text-primary" />
+          <div className="p-3 rounded-xl bg-white/10">
+            <LogIn className="w-6 h-6 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-foreground tracking-tight">
-            Welcome Back
-          </h1>
+          <WritingText
+            text="Welcome Back"
+            inView={true}
+            transition={{
+              type: "spring",
+              bounce: 0,
+              duration: 2,
+              delay: 0.3
+            }}
+            className="text-3xl font-bold tracking-tight"
+          />
         </div>
 
-        <div className="h-px bg-linear-to-r from-transparent via-border to-transparent" />
+        <div className="h-px bg-linear-to-r from-transparent via-white/30 to-transparent" />
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -79,13 +96,13 @@ function LoginPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium">
+                  <FormLabel className="text-sm font-medium text-white">
                     Email Address
                   </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="name@example.com"
-                      className="h-11 transition-smooth focus:ring-2 focus:ring-primary/20"
+                      className="h-11 bg-white/10 border-white/30 text-white placeholder-white/60 focus:ring-2 focus:ring-white/40 focus:border-white/60 transition-smooth"
                       {...field}
                     />
                   </FormControl>
@@ -99,14 +116,14 @@ function LoginPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium">
+                  <FormLabel className="text-sm font-medium text-white">
                     Password
                   </FormLabel>
                   <FormControl>
                     <Input
                       type="password"
                       placeholder="••••••••"
-                      className="h-11 transition-smooth focus:ring-2 focus:ring-primary/20"
+                      className="h-11 bg-white/10 border-white/30 text-white placeholder-white/60 focus:ring-2 focus:ring-white/40 focus:border-white/60 transition-smooth"
                       {...field}
                     />
                   </FormControl>
@@ -120,7 +137,7 @@ function LoginPage() {
               name="role"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="text-sm font-medium">
+                  <FormLabel className="text-sm font-medium text-white">
                     Select Role
                   </FormLabel>
                   <FormControl>
@@ -133,7 +150,7 @@ function LoginPage() {
                         <FormControl>
                           <RadioGroupItem value="user" id="role-user" />
                         </FormControl>
-                        <FormLabel htmlFor="role-user" className="font-normal cursor-pointer">
+                        <FormLabel htmlFor="role-user" className="font-normal cursor-pointer text-white">
                           User
                         </FormLabel>
                       </FormItem>
@@ -142,7 +159,7 @@ function LoginPage() {
                         <FormControl>
                           <RadioGroupItem value="owner" id="role-owner" />
                         </FormControl>
-                        <FormLabel htmlFor="role-owner" className="font-normal cursor-pointer">
+                        <FormLabel htmlFor="role-owner" className="font-normal cursor-pointer text-white">
                           Owner
                         </FormLabel>
                       </FormItem>
@@ -154,11 +171,11 @@ function LoginPage() {
             />
 
             <div className="flex items-center justify-between gap-4 pt-2">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-white/80">
                 Don't have an account?{" "}
                 <Link
                   to="/register"
-                  className="text-primary underline hover:underline transition-smooth font-semibold"
+                  className="text-white underline hover:underline transition-smooth font-semibold"
                 >
                   Register
                 </Link>
@@ -166,7 +183,7 @@ function LoginPage() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="transition-smooth hover:scale-105 shadow-md"
+                className="transition-smooth hover:scale-105 shadow-md bg-white/80 text-black hover:bg-white"
               >
                 {loading ? "Submitting..." : "Submit"}
               </Button>

@@ -75,8 +75,8 @@ function MenuItems() {
             }}
             className={`p-4 flex items-center gap-3 cursor-pointer rounded-lg transition-colors ${
               pathname === item.path
-                ? "bg-purple-600 text-white"
-                : "hover:bg-gray-100 text-foreground"
+                ? "bg-black text-white"
+                : "hover:bg-black/10 text-foreground"
             }`}
           >
             {item.icon}

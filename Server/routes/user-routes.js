@@ -111,5 +111,90 @@ router.get('/get-logged-in-user', middleware,async (req,res) => {
             message: error.message,
         });
     }
-})
+});
+
+router.put('/update-profile', middleware, async (req, res) => {
+    try {
+        const userId = req.userId;
+        const { name, email } = req.body;
+
+        // Check if email is already in use by another user
+        if (email) {
+            const existingUser = await UserModel.findOne({
+                email: email,
+                _id: { $ne: userId }
+            });
+            if (existingUser) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Email is already in use",
+                });
+            }
+        }
+
+        const updatedUser = await UserModel.findByIdAndUpdate(
+            userId,
+            { name, email },
+            { new: true }
+        ).select("-password");
+
+        return res.status(200).json({
+            success: true,
+            message: "Profile updated successfully",
+            user: updatedUser,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+});
+
+router.put('/change-password', middleware, async (req, res) => {
+    try {
+        const userId = req.userId;
+        const { oldPassword, newPassword } = req.body;
+
+        if (!oldPassword || !newPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Old password and new password are required",
+            });
+        }
+
+        const user = await UserModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        // Verify old password
+        const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({
+                success: false,
+                message: "Old password is incorrect",
+            });
+        }
+
+        // Hash new password and update
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Password changed successfully",
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+});
+
 module.exports = router;

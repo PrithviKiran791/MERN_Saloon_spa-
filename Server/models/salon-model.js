@@ -51,6 +51,16 @@ const salonSchema = new mongoose.Schema({
         required:true,
         default:[],
     },
+    startTime:{
+        type:String,
+        required:true,
+        trim:true,
+    },
+    endTime:{
+        type:String,
+        required:true,
+        trim:true,
+    },
     breakStartTime:{
         type:String,
         required:true,
@@ -76,7 +86,7 @@ const salonSchema = new mongoose.Schema({
         type:Object,
         required:false,
     },
-    IsActive:{
+    isActive:{
         type:Boolean,
         default:true,
     }
