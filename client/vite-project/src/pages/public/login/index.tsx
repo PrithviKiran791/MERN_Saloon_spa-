@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import SpecularButton from "@/components/ui/specular-button";
 import {
   Form,
   FormControl,
@@ -180,13 +180,12 @@ function LoginPage() {
                   Register
                 </Link>
               </p>
-              <Button
+              <SpecularButton
                 type="submit"
                 disabled={loading}
-                className="transition-smooth hover:scale-105 shadow-md bg-white/80 text-black hover:bg-white"
               >
                 {loading ? "Submitting..." : "Submit"}
-              </Button>
+              </SpecularButton>
             </div>
           </form>
         </Form>

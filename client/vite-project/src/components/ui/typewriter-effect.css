@@ -1,0 +1,24 @@
+.typewriter-effect {
+  display: inline-flex;
+  min-height: 1.75rem;
+  align-items: baseline;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.typewriter-effect__cursor {
+  margin-left: 0.18rem;
+  color: rgba(255, 255, 255, 0.92);
+  animation: typewriter-cursor-blink 0.9s steps(2, start) infinite;
+}
+
+@keyframes typewriter-cursor-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-effect__cursor {
+    animation: none;
+  }
+}

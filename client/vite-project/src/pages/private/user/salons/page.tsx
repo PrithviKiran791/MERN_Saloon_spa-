@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { calculateDistanceBetweenTwoLocation } from "@/utils";
-import { MapPin, DollarSign, ArrowRight } from "lucide-react";
+import { MapPin, IndianRupee, ArrowRight } from "lucide-react";
 axios.defaults.withCredentials = true;
 function UserSalonsPage() {
   const [allSalons, setAllSalons] = useState<ISalon[]>([]);
@@ -147,12 +147,12 @@ function UserSalonsPage() {
               </div>
 
               <div className="flex items-center gap-2 pt-2 border-t border-gray-100">
-                <DollarSign className="w-4 h-4 text-gray-500" />
+                <IndianRupee className="w-4 h-4 text-gray-500" />
                 <span className="text-sm font-semibold text-black">
-                  {salon.minimumServicePrice}
+                  ₹{salon.minimumServicePrice}
                 </span>
                 <span className="text-xs text-gray-500">
-                  - ${salon.maximumServicePrice}
+                  - ₹{salon.maximumServicePrice}
                 </span>
               </div>
 

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import SpecularButton from "@/components/ui/specular-button";
 import {
   Form,
   FormControl,
@@ -18,7 +18,6 @@ import { UserPlus } from "lucide-react";
 import { toast } from "sonner";
 import axios from "axios";
 import { useState } from "react";
-import { WarpBackground } from "@/components/ui/shadcn-io/warp-background";
 import { backendUrl } from "@/constants";
 
 const formSchema = z
@@ -85,19 +84,6 @@ function RegisterPage() {
       >
         ← Back to Home
       </Link>
-
-      <div className="pointer-events-none absolute inset-0">
-        <WarpBackground
-          perspective={120}
-          beamsPerSide={4}
-          beamSize={6}
-          beamDuration={4.5}
-          className="min-h-full w-full p-0 border-0 rounded-none bg-transparent"
-        >
-          <div className="min-h-full" />
-        </WarpBackground>
-        <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/30 to-black/60" />
-      </div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center">
         <div className="w-full max-w-md rounded-2xl border border-white/30 bg-white/5 backdrop-blur-lg shadow-lg shadow-black/30 p-8 flex flex-col gap-6 animate-scale-in">
@@ -249,10 +235,10 @@ function RegisterPage() {
                   Login
                 </Link>
               </p>
-              <Button
+              <SpecularButton
+                size="sm"
                 type="submit"
                 disabled={isSubmitting}
-                className="transition-all-smooth hover-scale shadow-md hover:shadow-glow btn-glow bg-white/80 text-black hover:bg-white"
               >
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">
@@ -262,7 +248,7 @@ function RegisterPage() {
                 ) : (
                   "Register"
                 )}
-              </Button>
+              </SpecularButton>
             </div>
             </form>
           </Form>

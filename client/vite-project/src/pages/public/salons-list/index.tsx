@@ -142,7 +142,7 @@ export default function SalonsFilterPage() {
               <div className="font-semibold text-lg">{salon.name}</div>
               <div className="text-sm text-muted-foreground">{salon.city}, {salon.state}</div>
               <div className="text-sm mt-2">
-                ${salon.minimumServiceCharge} - ${salon.maximumServiceCharge}
+                ₹{salon.minimumServiceCharge} - ₹{salon.maximumServiceCharge}
               </div>
               <span className={`inline-block mt-2 px-2 py-1 rounded text-xs font-semibold ${salon.offerStatus === "active" ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-700"}`}>
                 {salon.offerStatus}

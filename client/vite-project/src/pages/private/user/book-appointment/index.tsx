@@ -15,7 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import DatePicker from "react-datepicker";
 import isBetween from "dayjs/plugin/isBetween";
 import Cookies from "js-cookie";
@@ -160,23 +159,12 @@ function BookAppointmentPage() {
   const timeslots = useMemo(() => {
     const tempTimeslots: { label: string; value: string }[] = [];
     if (date && salonData) {
-      let startTime = dayjs(
-        `${date} ${salonData?.startTime}`,
-        "YYYY-MM-DD HH:mm"
-      );
-      const endTime = dayjs(
-        `${date} ${salonData?.endTime}`,
-        "YYYY-MM-DD HH:mm"
-      );
+      const dateStr = dayjs(date).format("YYYY-MM-DD");
+      let startTime = dayjs(`${dateStr} ${salonData.startTime}`, "YYYY-MM-DD HH:mm");
+      const endTime = dayjs(`${dateStr} ${salonData.endTime}`, "YYYY-MM-DD HH:mm");
 
-      const breakStartTime = dayjs(
-        `${date} ${salonData?.breakStartTime}`,
-        "YYYY-MM-DD HH:mm"
-      );
-      const breakEndTime = dayjs(
-        `${date} ${salonData?.breakEndTime}`,
-        "YYYY-MM-DD HH:mm"
-      );
+      const breakStartTime = dayjs(`${dateStr} ${salonData.breakStartTime}`, "YYYY-MM-DD HH:mm");
+      const breakEndTime = dayjs(`${dateStr} ${salonData.breakEndTime}`, "YYYY-MM-DD HH:mm");
 
       while (startTime.isBefore(endTime)) {
         if (
@@ -223,11 +211,11 @@ function BookAppointmentPage() {
             {renderSalonProperty("Zip Code", salonData.zipCode)}
             {renderSalonProperty(
               "Minimum Service Price",
-              "$" + salonData.minimumServicePrice
+              "₹" + salonData.minimumServicePrice
             )}
             {renderSalonProperty(
               "Maximum Service Price",
-              "$" + salonData.maximumServicePrice
+              "₹" + salonData.maximumServicePrice
             )}
             {renderSalonProperty(
               "Working Days",
@@ -266,9 +254,10 @@ function BookAppointmentPage() {
                 }}
                 className="border border-gray-300 rounded-lg p-3 w-full cursor-pointer text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all"
                 minDate={new Date()}
-                filterDate={(date: any) => {
-                  const day = dayjs(date).format("dddd").toLowerCase();
-                  return salonData?.workingDays.includes(day);
+                filterDate={(d: any) => {
+                  const dayName = dayjs(d).format("dddd");
+                  const salonDaysLower = (salonData?.workingDays || []).map((wd: string) => wd.toLowerCase());
+                  return salonDaysLower.includes(dayName.toLowerCase());
                 }}
                 placeholderText="Click to select date"
                 popperClassName="z-50 absolute"

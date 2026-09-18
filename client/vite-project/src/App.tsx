@@ -23,6 +23,7 @@ import SalonsListPage from "./pages/public/salons-list";
 import ChangePasswordPage from "./pages/private/user/dashboard/change-password";
 import EditOwnerProfilePage from "./pages/private/owner/profile/edit-profile";
 import ChangeOwnerPasswordPage from "./pages/private/owner/profile/change-password";
+import LoadingPage from "./pages/public/loading";
 import { Toaster } from 'sonner';
 
 import "./index.css";
@@ -38,6 +39,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/home" element={<PublicLayout><Homepage/></PublicLayout>}></Route>
+          <Route path="/loading" element={<LoadingPage />} />
           <Route path="/salons" element={<PublicLayout><SalonsListPage /></PublicLayout>} />
           <Route path="/salons/:id" element={<PublicLayout><SalonDetailPage/></PublicLayout>} />
           <Route path="/login" element={<PublicLayout><Loginpage/></PublicLayout>}></Route>

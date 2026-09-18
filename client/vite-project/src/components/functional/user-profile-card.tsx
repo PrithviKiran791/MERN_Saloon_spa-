@@ -1,6 +1,7 @@
 import useUsersStore, { type IUsersStore } from "@/store/users-store";
-import { Button } from "@/components/ui/button";
+import SpecularButton from "@/components/ui/specular-button";
 import { useNavigate } from "react-router-dom";
+import { Avatar } from "@/components/ui/avatar";
 
 function UserProfileCard() {
   const navigate = useNavigate();
@@ -13,8 +14,12 @@ function UserProfileCard() {
   return (
     <div className="max-w-2xl mx-auto bg-white rounded-lg shadow p-6">
       <div className="flex flex-col gap-4">
-        <div className="border-b pb-4">
-          <h2 className="text-lg font-semibold text-gray-800">User Profile</h2>
+        <div className="flex items-center gap-3 border-b pb-4">
+          <Avatar size="lg" initials={user.name.slice(0, 2).toUpperCase()} status="online" border />
+          <div>
+            <h2 className="text-lg font-semibold text-gray-800">User Profile</h2>
+            <p className="text-sm text-gray-500">{user.name}</p>
+          </div>
         </div>
         
         <div className="space-y-3">
@@ -33,8 +38,9 @@ function UserProfileCard() {
         </div>
 
         <div className="mt-6 flex gap-4">
-          <Button 
-            className="flex-1 bg-black text-white hover:bg-black/90"
+          <SpecularButton
+            size="sm"
+            className="flex-1"
             onClick={() => {
               if (user.role === "user") {
                 navigate("/user/dashboard/edit-profile");
@@ -44,9 +50,11 @@ function UserProfileCard() {
             }}
           >
             Edit Profile
-          </Button>
-          <Button 
-            className="flex-1 bg-black text-white hover:bg-black/90"
+          </SpecularButton>
+          <SpecularButton
+            size="sm"
+            baseColor="#1f2937"
+            className="flex-1"
             onClick={() => {
               if (user.role === "user") {
                 navigate("/user/dashboard/change-password");
@@ -56,7 +64,7 @@ function UserProfileCard() {
             }}
           >
             Change Password
-          </Button>
+          </SpecularButton>
         </div>
       </div>
     </div>

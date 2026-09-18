@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/select"
 
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import SpecularButton from "@/components/ui/specular-button";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
 import { backendUrl } from "@/constants";
@@ -56,10 +56,16 @@ export const formSchema = z.object({
     isActive : z.boolean().optional(),
 });
 
-function SalonForm({ formType, initialValues }: { formType: 'add' | 'edit'; initialValues?: Partial<ISalon> }) {
+function SalonForm({ formType, initialValues }: Readonly<{ formType: 'add' | 'edit'; initialValues?: Partial<ISalon> }>) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const [selectedLocation, setSelectedLocation] = useState<any>(initialValues?.locationInMap || null);
+    const [selectedLocation, setSelectedLocation] = useState<any>(initialValues?.locationInMap ?? null);
+    let actionLabel = "Update Salon";
+    if (loading) {
+        actionLabel = "Submitting...";
+    } else if (formType === "add") {
+        actionLabel = "Create Salon";
+    }
     
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -79,7 +85,7 @@ function SalonForm({ formType, initialValues }: { formType: 'add' | 'edit'; init
             breakEndTime: initialValues?.breakEndTime || "",
             slotDuration: initialValues?.slotDuration || 30,
             maxBookingPerSlot: initialValues?.maxBookingPerSlot || 1,
-            locationInMap: initialValues?.locationInMap || {},
+            locationInMap: initialValues?.locationInMap ?? {},
             isActive: initialValues?.isActive !== false,
         },
     });
@@ -376,7 +382,7 @@ function SalonForm({ formType, initialValues }: { formType: 'add' | 'edit'; init
                         control={form.control}
                         name="offerStatus"
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="pb-16">
                                 <FormLabel>Offer Status</FormLabel>
                                 <Select onValueChange={(value) => field.onChange(value === "active")} defaultValue={field.value ? "active" : "inactive"}>
                                     <FormControl>
@@ -436,9 +442,9 @@ function SalonForm({ formType, initialValues }: { formType: 'add' | 'edit'; init
                         />
                     </div>
 
-                    <Button type="submit" disabled={loading} className="w-full">
-                        {loading ? "Submitting..." : formType === 'add' ? "Create Salon" : "Update Salon"}
-                    </Button>
+                    <SpecularButton type="submit" disabled={loading} size="lg" className="w-full">
+                        {actionLabel}
+                    </SpecularButton>
                 </form>
             </Form>
         </div>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import PageTitle from "@/components/ui/page-title";
-import { Button } from "@/components/ui/button";
+import SpecularButton from "@/components/ui/specular-button";
 import type { IBooking } from "@/interfaces";
 import { backendUrl } from "@/constants";
 import { Ripple } from "@/components/ui/ripple";
@@ -70,6 +70,7 @@ export default function OwnerAppointmentsPage() {
       <div className="relative z-10">
       <PageTitle title="Salon Appointments" />
 
+      <div className="private-page-card">
       {loading && (
         <div className="bg-card border border-border rounded-lg p-4">
           <p className="text-muted-foreground">Loading appointments...</p>
@@ -119,27 +120,28 @@ export default function OwnerAppointmentsPage() {
                 >
                   {booking.status}
                 </span>
-                <Button
+                <SpecularButton
                   size="sm"
-                  variant="outline"
+                  baseColor="#14532d"
                   disabled={updatingId === booking._id}
                   onClick={() => updateStatus(booking._id, "confirmed")}
                 >
                   Confirm
-                </Button>
-                <Button
+                </SpecularButton>
+                <SpecularButton
                   size="sm"
-                  variant="ghost"
+                  baseColor="#7f1d1d"
                   disabled={updatingId === booking._id}
                   onClick={() => updateStatus(booking._id, "cancelled")}
                 >
                   Cancel
-                </Button>
+                </SpecularButton>
               </div>
             </div>
           ))}
         </div>
       )}
+      </div>
       </div>
     </div>
   );

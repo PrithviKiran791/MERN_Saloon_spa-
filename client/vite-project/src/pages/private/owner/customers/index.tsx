@@ -53,6 +53,7 @@ export default function OwnerCustomersPage() {
     <div className="space-y-4">
       <PageTitle title="Customers" />
 
+      <div className="private-page-card">
       {loading && (
         <div className="bg-card border border-border rounded-lg p-4">
           <p className="text-muted-foreground">Loading customers...</p>
@@ -85,6 +86,7 @@ export default function OwnerCustomersPage() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

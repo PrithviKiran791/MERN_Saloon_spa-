@@ -7,7 +7,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
 import PageTitle from "@/components/ui/page-title";
-import { Button } from "@/components/ui/button";
+import SpecularButton from "@/components/ui/specular-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Spinner from "@/components/ui/spinner";
@@ -126,7 +126,7 @@ function ChangeOwnerPasswordPage() {
           </div>
 
           <div className="flex gap-3 mt-8 pt-4 border-t border-gray-200">
-            <Button
+            <SpecularButton
               type="submit"
               disabled={loading}
               className="flex-1 bg-black text-white hover:bg-black/80"
@@ -139,15 +139,14 @@ function ChangeOwnerPasswordPage() {
               ) : (
                 "Change Password"
               )}
-            </Button>
-            <Button
+            </SpecularButton>
+            <SpecularButton
               type="button"
-              variant="outline"
               className="flex-1"
               onClick={() => navigate("/owner/profile")}
             >
               Cancel
-            </Button>
+            </SpecularButton>
           </div>
         </form>
       </div>

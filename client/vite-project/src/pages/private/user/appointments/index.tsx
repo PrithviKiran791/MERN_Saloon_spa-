@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import PageTitle from "@/components/ui/page-title";
-import { Button } from "@/components/ui/button";
+import SpecularButton from "@/components/ui/specular-button";
 import type { IBooking } from "@/interfaces";
 import { backendUrl } from "@/constants";
 import dayjs from "dayjs";
@@ -65,9 +65,7 @@ export default function UserAppointmentsPage() {
         <div className="bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-lg p-8 text-center">
           <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600 mb-4">No appointments yet. Book a salon visit to see it here.</p>
-          <Button className="bg-black text-white hover:bg-black/80" asChild>
-            <a href="/user/salons">Browse Salons</a>
-          </Button>
+          <SpecularButton size="sm" onClick={() => window.location.assign("/user/salons")}>Browse Salons</SpecularButton>
         </div>
       )}
 
@@ -148,13 +146,13 @@ export default function UserAppointmentsPage() {
                       {booking.status}
                     </span>
                     {booking.status !== "cancelled" && (
-                      <Button
-                        variant="outline"
+                      <SpecularButton
                         size="sm"
+                        baseColor="#334155"
                         className="border-gray-300 text-gray-700 hover:bg-white/50"
                       >
                         Cancel
-                      </Button>
+                      </SpecularButton>
                     )}
                   </div>
                 </div>

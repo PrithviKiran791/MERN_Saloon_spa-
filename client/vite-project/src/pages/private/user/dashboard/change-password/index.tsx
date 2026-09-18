@@ -6,7 +6,7 @@ import { z } from "zod";
 import axios from "axios";
 import { toast } from "sonner";
 import PageTitle from "@/components/ui/page-title";
-import { Button } from "@/components/ui/button";
+import SpecularButton from "@/components/ui/specular-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Spinner from "@/components/ui/spinner";
@@ -112,21 +112,20 @@ function ChangePasswordPage() {
           </div>
 
           <div className="flex gap-3 mt-6">
-            <Button
+            <SpecularButton
               type="submit"
               disabled={loading}
               className="flex-1"
             >
               {loading ? <Spinner /> : "Change Password"}
-            </Button>
-            <Button
+            </SpecularButton>
+            <SpecularButton
               type="button"
-              variant="outline"
               className="flex-1"
               onClick={() => navigate("/user/dashboard/profile")}
             >
               Cancel
-            </Button>
+            </SpecularButton>
           </div>
         </form>
       </div>

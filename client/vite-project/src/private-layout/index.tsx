@@ -8,8 +8,10 @@ import Cookies from "js-cookie";
 import Header from "./header";
 import MenuItems from "./menu-items";
 import { useRouteLoading } from "@/hooks/useRouteLoading";
+import { AuroraBackground } from "@/components/ui/aurora-background";
+import { LoaderOne } from "@/components/ui/loader";
 
-function PrivateLayout({ children }: { children: ReactNode }) {
+function PrivateLayout({ children }: Readonly<{ children: ReactNode }>) {
   const [loading, setLoading] = useState<boolean>(true);
   const isRouteLoading = useRouteLoading();
   const setUser = useUsersStore((state) => state.setUser);
@@ -75,12 +77,15 @@ function PrivateLayout({ children }: { children: ReactNode }) {
   if (loading) {
     return (
       <>
+        <AuroraBackground />
         <Header/>
         <MenuItems />
         <div className="flex justify-center items-center h-screen animate-gradient-bg">
           <div className="flex flex-col items-center gap-4">
-            <div className="spinner w-12 h-12"></div>
-            <p className="text-muted-foreground animate-pulse-slow">Loading...</p>
+            <div className="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800 backdrop-blur-md shadow-2xl">
+              <LoaderOne />
+            </div>
+            <p className="text-xs uppercase tracking-widest text-neutral-400 animate-pulse">Loading S.H.E.Y...</p>
           </div>
         </div>
       </>
@@ -88,21 +93,22 @@ function PrivateLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative min-h-screen overflow-hidden bg-transparent">
+      <AuroraBackground />
       <Header />
       <MenuItems />
       
       {/* Route Loading Overlay */}
       {isRouteLoading && (
-        <div className="fixed inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center pointer-events-none">
-          <div className="flex flex-col items-center gap-3">
-            <div className="spinner w-10 h-10 border-3 border-black border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-sm font-medium text-black/70">Loading...</p>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center pointer-events-none">
+          <div className="flex flex-col items-center gap-4 p-6 rounded-2xl bg-neutral-900/80 border border-neutral-800 shadow-2xl">
+            <LoaderOne />
+            <p className="text-xs uppercase tracking-widest text-neutral-300 font-medium">Loading...</p>
           </div>
         </div>
       )}
       
-      <div className="ml-64 pt-20 p-8">
+      <div className="private-content relative z-10 ml-20 p-4 md:p-8">
         {children}
       </div>
     </div>

@@ -1,0 +1,84 @@
+.aurora-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #d4d4d4;
+  background-image: linear-gradient(115deg, #eeeeee 0%, #b8b8b8 42%, #f5f5f5 68%, #a3a3a3 100%);
+  background-size: 220% 220%;
+  animation: aurora-base-flow 24s ease-in-out infinite alternate;
+}
+
+.aurora-background--public {
+  background: #050505;
+  background-image: linear-gradient(120deg, #050505 0%, #262626 48%, #090909 100%);
+}
+
+.aurora-background--public::before {
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.16), rgba(82, 82, 82, 0.2) 42%, transparent 72%);
+}
+
+.aurora-background--public::after {
+  background: radial-gradient(ellipse at center, rgba(163, 163, 163, 0.14), rgba(24, 24, 24, 0.35) 42%, transparent 72%);
+}
+
+.aurora-background::before,
+.aurora-background::after {
+  content: "";
+  position: absolute;
+  width: 75vw;
+  height: 42vh;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  filter: blur(22px);
+  opacity: 0.72;
+  transform: rotate(-14deg);
+  animation: aurora-drift 18s ease-in-out infinite alternate;
+}
+
+.aurora-background::before {
+  top: -18vh;
+  left: -12vw;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.82), rgba(31, 31, 31, 0.3) 42%, transparent 72%);
+}
+
+.aurora-background::after {
+  right: -18vw;
+  bottom: -16vh;
+  background: radial-gradient(ellipse at center, rgba(115, 115, 115, 0.28), rgba(24, 24, 24, 0.28) 42%, transparent 72%);
+  animation-delay: -7s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(-5%, -2%, 0) rotate(-14deg) scale(0.96);
+  }
+  50% {
+    transform: translate3d(4%, 4%, 0) rotate(-8deg) scale(1.04);
+  }
+  100% {
+    transform: translate3d(-2%, 7%, 0) rotate(-18deg) scale(1);
+  }
+}
+
+@keyframes aurora-base-flow {
+  from {
+    background-position: 0% 40%;
+  }
+  to {
+    background-position: 100% 60%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-background {
+    animation: none;
+  }
+
+  .aurora-background::before,
+  .aurora-background::after {
+    animation: none;
+  }
+}

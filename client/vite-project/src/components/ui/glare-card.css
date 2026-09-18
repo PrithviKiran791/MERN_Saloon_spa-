@@ -1,0 +1,62 @@
+.glare-card {
+  --glare-x: 50%;
+  --glare-y: 50%;
+  --glare-opacity: 0;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: min(100%, 28rem);
+  min-height: 22rem;
+  padding: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 1.5rem;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.04) 45%, rgba(125, 211, 252, 0.2));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  transition: transform 220ms ease, border-color 220ms ease;
+}
+
+.glare-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle 12rem at var(--glare-x) var(--glare-y), rgba(255, 255, 255, 0.42), transparent 68%);
+  opacity: var(--glare-opacity);
+  transition: opacity 220ms ease;
+}
+
+.glare-card::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -2;
+  border-radius: calc(1.5rem - 1px);
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(2, 6, 23, 0.72));
+}
+
+.glare-card:hover {
+  border-color: rgba(255, 255, 255, 0.42);
+  transform: translateY(-4px);
+}
+
+.glare-card__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: inherit;
+  height: 100%;
+  border-radius: calc(1.5rem - 1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glare-card {
+    transition: none;
+  }
+
+  .glare-card:hover {
+    transform: none;
+  }
+}

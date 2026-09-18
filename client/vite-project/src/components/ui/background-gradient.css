@@ -1,0 +1,47 @@
+.background-gradient {
+  position: relative;
+  isolation: isolate;
+  display: inline-block;
+  padding: 2px;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  background: #3f3f46;
+}
+
+.background-gradient::before {
+  content: "";
+  position: absolute;
+  inset: -75%;
+  z-index: -1;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(255, 255, 255, 0.08) 55deg,
+    rgba(255, 255, 255, 0.75) 105deg,
+    rgba(82, 82, 91, 0.8) 155deg,
+    transparent 215deg,
+    rgba(255, 255, 255, 0.42) 285deg,
+    transparent 360deg
+  );
+  animation: background-gradient-spin 9s linear infinite;
+}
+
+.background-gradient__inner {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: calc(1.6rem - 2px);
+  background: #111113;
+}
+
+@keyframes background-gradient-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .background-gradient::before {
+    animation: none;
+  }
+}

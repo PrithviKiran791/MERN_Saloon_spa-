@@ -1,10 +1,11 @@
 import React , { useEffect } from "react";
 import Cookies  from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { WarpBackground } from "@/components/ui/shadcn-io/warp-background";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 import { useRouteLoading } from "@/hooks/useRouteLoading";
+import { LoaderOne } from "@/components/ui/loader";
 
-function PublicLayout({ children } : {children: React.ReactNode}) {
+function PublicLayout({ children } : Readonly<{children: React.ReactNode}>) {
     const [loading,setloading] = React.useState<boolean>(true);
     const navigate = useNavigate();
     const isRouteLoading = useRouteLoading();
@@ -22,18 +23,13 @@ function PublicLayout({ children } : {children: React.ReactNode}) {
     return (
         <div className="relative min-h-screen w-full bg-black text-white overflow-hidden">
             <div className="pointer-events-none absolute inset-0">
-                <WarpBackground
-                    perspective={120}
-                    beamsPerSide={4}
-                    beamSize={6}
-                    beamDuration={4.5}
-                    className="min-h-full w-full p-0 border-0 rounded-none bg-transparent"
-                >
-                    <div className="min-h-full" />
-                </WarpBackground>
+                <AuroraBackground className="aurora-background--public" />
             </div>
-            <div className="relative z-10 flex items-center justify-center min-h-screen">
-                <div className="spinner w-12 h-12"></div>
+            <div className="relative z-10 flex flex-col items-center justify-center min-h-screen gap-4">
+                <div className="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800 backdrop-blur-md shadow-2xl">
+                    <LoaderOne />
+                </div>
+                <p className="text-xs uppercase tracking-widest text-neutral-400 animate-pulse">Loading S.H.E.Y...</p>
             </div>
         </div>
     );
@@ -41,25 +37,16 @@ function PublicLayout({ children } : {children: React.ReactNode}) {
 return (
     <div className="relative min-h-screen w-full bg-black text-white overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
-            <WarpBackground
-                perspective={120}
-                beamsPerSide={4}
-                beamSize={6}
-                beamDuration={4.5}
-                className="min-h-full w-full p-0 border-0 rounded-none bg-transparent"
-            >
-                <div className="min-h-full" />
-            </WarpBackground>
-            <div className="absolute inset-0 bg-linear-to-b from-black via-slate-900 to-black opacity-70" />
+            <AuroraBackground className="aurora-background--public" />
         </div>
         <div className="relative z-10 min-h-screen w-full">
             {children}
         </div>
         {isRouteLoading && (
-            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center pointer-events-none">
-                <div className="flex flex-col items-center gap-3">
-                    <div className="spinner w-10 h-10 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-sm font-medium text-white">Loading...</p>
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center pointer-events-none">
+                <div className="flex flex-col items-center gap-4 p-6 rounded-2xl bg-neutral-900/80 border border-neutral-800 shadow-2xl">
+                    <LoaderOne />
+                    <p className="text-xs uppercase tracking-widest text-neutral-300 font-medium">Loading...</p>
                 </div>
             </div>
         )}

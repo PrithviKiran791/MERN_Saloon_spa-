@@ -1,9 +1,12 @@
 import useUsersStore from "@/store/users-store";
 import { User, Mail, Shield, Hash, Home } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import SpecularButton from "@/components/ui/specular-button";
+import { Avatar } from "@/components/ui/avatar";
 
 function OwnerDashboardPage() {
   const user = useUsersStore((state) => state.user);
+  const navigate = useNavigate();
 
   if (!user) {
     return (
@@ -20,19 +23,19 @@ function OwnerDashboardPage() {
     <div className="flex flex-col gap-8 p-2">
       {/* Back to Home Button */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-3xl font-bold text-black">Dashboard</h2>
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-black/30 bg-black/5 hover:bg-black/10 text-black text-sm font-medium transition-all hover:scale-105"
-        >
+        <h2 className="page-heading text-3xl text-black">Dashboard</h2>
+        <SpecularButton size="sm" baseColor="#1f2937" onClick={() => navigate("/")}>
           <Home className="w-4 h-4" />
           Back to Home
-        </Link>
+        </SpecularButton>
       </div>
 
       {/* Welcome Header */}
       <div className="bg-gradient-to-r from-black to-slate-900 rounded-xl shadow-lg p-8 text-white border border-white/10">
-        <h1 className="text-4xl font-bold mb-2">Welcome back, {user.name}!</h1>
+        <div className="flex items-center gap-4">
+          <Avatar size="xl" initials={user.name.slice(0, 2).toUpperCase()} status="online" border />
+          <h1 className="text-4xl font-bold mb-2">Welcome back, {user.name}!</h1>
+        </div>
         <p className="text-white/70">Manage your salon and appointments from your dashboard</p>
       </div>
 

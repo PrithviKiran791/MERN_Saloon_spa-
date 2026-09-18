@@ -135,7 +135,7 @@ export default function SalonDetailPage() {
             <div className="p-3 border border-border rounded-lg bg-muted/30">
               <div className="text-sm text-muted-foreground">Price Range</div>
               <div className="font-semibold">
-                ${salon.minimumServiceCharge} - ${salon.maximumServiceCharge}
+                ₹{salon.minimumServiceCharge} - ₹{salon.maximumServiceCharge}
               </div>
             </div>
             <div className="p-3 border border-border rounded-lg bg-muted/30">

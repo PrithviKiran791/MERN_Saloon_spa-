@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Button } from "@/components/ui/button";
+import SpecularButton from "@/components/ui/specular-button";
 import PageTitle from "@/components/ui/page-title";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { backendUrl } from "@/constants";
 import type { ISalon } from "@/interfaces";
 
 export default function OwnerSalonsPage() {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [salons, setSalons] = useState<ISalon[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -60,11 +61,10 @@ export default function OwnerSalonsPage() {
         <div className="space-y-4">
             <div className="flex justify-between items-center">
                 <PageTitle title="My Salons" />
-                <Button asChild>
-                    <Link to="/owner/salons/add">Add new salon</Link>
-                </Button>
+                <SpecularButton size="sm" onClick={() => navigate("/owner/salons/add")}>Add new salon</SpecularButton>
             </div>
 
+            <div className="private-page-card">
             {loading && (
                 <div className="bg-card border border-border rounded-lg p-4">
                     <p className="text-muted-foreground">Loading salons...</p>
@@ -95,21 +95,21 @@ export default function OwnerSalonsPage() {
                                 <div className="text-xs text-muted-foreground">Offer: {salon.offerStatus}</div>
                             </div>
                             <div className="flex gap-2">
-                                <Button variant="outline" asChild>
-                                    <Link to={`/owner/salons/edit/${salon._id}`}>Edit</Link>
-                                </Button>
-                                <Button
-                                    variant="destructive"
+                                <SpecularButton size="sm" onClick={() => navigate(`/owner/salons/edit/${salon._id}`)}>Edit</SpecularButton>
+                                <SpecularButton
+                                    size="sm"
+                                    baseColor="#7f1d1d"
                                     disabled={deletingId === salon._id}
                                     onClick={() => deleteSalon(salon._id!)}
                                 >
                                     Delete
-                                </Button>
+                                </SpecularButton>
                             </div>
                         </div>
                     ))}
                 </div>
             )}
+            </div>
         </div>
     );
 }

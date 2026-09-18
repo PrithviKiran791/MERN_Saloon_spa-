@@ -1,9 +1,11 @@
 import PageTitle from "@/components/ui/page-title";
 import { Calendar, MapPin, Users, Zap, ArrowUpRight, Home } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Ripple } from "@/components/ui/ripple";
+import SpecularButton from "@/components/ui/specular-button";
 
 function UserDashboardPage() {
+  const navigate = useNavigate();
   return (
     <div className="relative space-y-8">
       <Ripple 
@@ -15,13 +17,10 @@ function UserDashboardPage() {
       {/* Back to Home Button */}
       <div className="flex items-center justify-between mb-4">
         <PageTitle title="Dashboard" />
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-black/30 bg-black/5 hover:bg-black/10 text-black text-sm font-medium transition-all hover:scale-105"
-        >
+        <SpecularButton size="sm" baseColor="#1f2937" onClick={() => navigate("/")}>
           <Home className="w-4 h-4" />
           Back to Home
-        </Link>
+        </SpecularButton>
       </div>
       
       {/* Welcome Section */}
@@ -30,27 +29,18 @@ function UserDashboardPage() {
         <p className="text-white/80 text-lg">Discover premium salon services in your area</p>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link
-            to="/user/salons"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white text-black font-semibold hover:bg-white/90 transition-all hover:shadow-lg hover:scale-105"
-          >
+          <SpecularButton size="lg" baseColor="#f8fafc" lineColor="#111827" className="text-black" onClick={() => navigate("/user/salons")}>
             Browse Salons
             <ArrowUpRight className="w-4 h-4" />
-          </Link>
-          <Link
-            to="/user/appointments"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-white/40 text-white hover:bg-white/20 transition-all backdrop-blur-sm"
-          >
+          </SpecularButton>
+          <SpecularButton size="lg" baseColor="#1f2937" onClick={() => navigate("/user/appointments")}>
             View Appointments
             <ArrowUpRight className="w-4 h-4" />
-          </Link>
-          <Link
-            to="/user/profile"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-white/40 text-white hover:bg-white/20 transition-all backdrop-blur-sm"
-          >
+          </SpecularButton>
+          <SpecularButton size="lg" baseColor="#1f2937" onClick={() => navigate("/user/profile")}>
             Profile Settings
             <ArrowUpRight className="w-4 h-4" />
-          </Link>
+          </SpecularButton>
         </div>
       </div>
 

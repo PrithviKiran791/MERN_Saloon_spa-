@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useUsersStore, type IUsersStore } from "@/store/users-store";
 import PageTitle from "@/components/ui/page-title";
-import { Button } from "@/components/ui/button";
-import { Mail, User, Edit, LogOut } from "lucide-react";
+import SpecularButton from "@/components/ui/specular-button";
+import { Mail, Edit, LogOut } from "lucide-react";
 import Cookies from "js-cookie";
 import { Ripple } from "@/components/ui/ripple";
+import { Avatar } from "@/components/ui/avatar";
 
 function UserProfilePage() {
   const navigate = useNavigate();
@@ -34,9 +35,7 @@ function UserProfilePage() {
             <div className="flex items-start justify-between mb-6">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center">
-                    <User className="w-8 h-8 text-white" />
-                  </div>
+                  <Avatar size="xl" initials={user.name.slice(0, 2).toUpperCase()} status="online" border />
                   <div>
                     <h2 className="text-2xl font-bold text-black">{user.name}</h2>
                     <p className="text-gray-600 text-sm capitalize">{user.role}</p>
@@ -58,21 +57,23 @@ function UserProfilePage() {
 
             {/* Action Buttons */}
             <div className="flex gap-3 mt-6 pt-6 border-t border-gray-200">
-              <Button
+              <SpecularButton
+                size="sm"
                 onClick={() => navigate("/user/profile/edit-profile")}
-                className="flex-1 bg-black text-white hover:bg-black/80 flex items-center justify-center gap-2"
+                className="flex-1"
               >
                 <Edit className="w-4 h-4" />
                 Edit Profile
-              </Button>
-              <Button
+              </SpecularButton>
+              <SpecularButton
+                size="sm"
                 onClick={handleLogout}
-                variant="outline"
-                className="flex-1 flex items-center justify-center gap-2"
+                baseColor="#1f2937"
+                className="flex-1"
               >
                 <LogOut className="w-4 h-4" />
                 Logout
-              </Button>
+              </SpecularButton>
             </div>
           </div>
 

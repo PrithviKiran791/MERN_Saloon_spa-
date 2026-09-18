@@ -3,9 +3,13 @@ import PageTitle from "@/components/ui/page-title";
 
 export function AddSalonPage() {
     return (
-        <div>
-            <PageTitle title="Add New Salon" />
-            <SalonForm formType="add" initialValues={{}} />
+        <div className="mx-auto w-full max-w-5xl space-y-5">
+            <div className="mx-auto w-full max-w-4xl">
+                <PageTitle title="Add New Salon" />
+            </div>
+            <div className="private-page-card mx-auto w-full max-w-4xl">
+                <SalonForm formType="add" initialValues={{}} />
+            </div>
         </div>
     );
 }

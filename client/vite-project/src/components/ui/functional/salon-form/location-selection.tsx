@@ -32,37 +32,43 @@ const LocationSelection = ({
   useEffect(() => {
     if (!hideMap && mapRef.current && !mapInstanceRef.current) {
       loadLeafletCSS();
-      
-      // Load Leaflet from CDN
-      const script = document.createElement("script");
-      script.src = "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js";
-      script.onload = () => {
-        // Access the global L object
+
+      const initializeMap = () => {
         const L = (window as any).L;
-        if (L && mapRef.current) {
-          const map = L.map(mapRef.current).setView([20, 78], 5);
-          
-          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-            maxZoom: 19,
-          }).addTo(map);
+        if (!L || !mapRef.current || mapInstanceRef.current) return;
 
-          mapInstanceRef.current = map;
-          setMapLoaded(true);
+        const map = L.map(mapRef.current).setView([20, 78], 5);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          maxZoom: 19,
+        }).addTo(map);
 
-          // Add click listener
-          map.on("click", (e: any) => {
-            const { lat, lng } = e.latlng;
-            handleMapClick(lat, lng);
-          });
+        mapInstanceRef.current = map;
+        setMapLoaded(true);
+        map.on("click", (e: any) => handleMapClick(e.latlng.lat, e.latlng.lng));
 
-          // Set initial marker if location exists
-          if (selectedLocationObject && selectedLocationObject.lat) {
-            setMapMarker(selectedLocationObject.lat, selectedLocationObject.lon);
-          }
+        requestAnimationFrame(() => map.invalidateSize());
+        window.setTimeout(() => map.invalidateSize(), 250);
+        if (selectedLocationObject?.lat) {
+          map.setView([selectedLocationObject.lat, selectedLocationObject.lon], 15);
         }
       };
+
+      if ((window as any).L) {
+        initializeMap();
+        return;
+      }
+
+      const existingScript = document.querySelector<HTMLScriptElement>("script[data-leaflet]");
+      if (existingScript) {
+        existingScript.addEventListener("load", initializeMap, { once: true });
+        return () => existingScript.removeEventListener("load", initializeMap);
+      }
+
+      const script = document.createElement("script");
+      script.dataset.leaflet = "true";
+      script.src = "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js";
+      script.onload = initializeMap;
       document.body.appendChild(script);
     }
   }, [hideMap]);
@@ -128,23 +134,24 @@ const LocationSelection = ({
     
     // Update map if available
     if (location.lat && location.lon) {
-      setMapMarker(parseFloat(location.lat), parseFloat(location.lon));
+      setMapMarker(Number.parseFloat(location.lat), Number.parseFloat(location.lon));
     }
   };
 
   useEffect(() => {
-    if (selectedLocationObject && selectedLocationObject.display_name) {
+    if (selectedLocationObject?.display_name) {
       setQuery(selectedLocationObject.display_name);
     }
   }, [selectedLocationObject]);
 
   return (
     <div className="relative w-full space-y-4">
-      <div>
-        <label className="text-sm font-medium text-gray-700 block mb-2">
+      <div className="relative">
+        <label htmlFor="salon-location-search" className="mb-2 block text-sm font-medium text-gray-700">
           Search Location
         </label>
         <Input
+          id="salon-location-search"
           type="text"
           placeholder="Search for a location or click on the map"
           value={query}
@@ -152,15 +159,16 @@ const LocationSelection = ({
           className="w-full"
         />
         {suggestions.length > 0 && (
-          <div className="absolute top-16 left-0 right-0 bg-white border border-gray-300 rounded mt-1 max-h-60 overflow-y-auto z-50 shadow-lg">
+          <div className="absolute left-0 right-0 top-full z-60 mt-2 max-h-64 overflow-y-auto rounded-xl border border-slate-200 bg-white p-1 shadow-xl shadow-slate-900/15">
             {suggestions.map((place: any) => (
-              <div
+              <button
+                type="button"
                 key={place.place_id}
                 onClick={() => handleSelectLocation(place)}
-                className="px-4 py-2 hover:bg-blue-50 cursor-pointer border-b last:border-b-0 text-sm"
+                className="block w-full cursor-pointer rounded-lg border-b border-slate-100 px-3 py-2.5 text-left text-sm leading-5 text-slate-700 transition-colors last:border-b-0 hover:bg-slate-100 hover:text-slate-950"
               >
                 {place.display_name}
-              </div>
+              </button>
             ))}
           </div>
         )}
@@ -168,13 +176,12 @@ const LocationSelection = ({
 
       {!hideMap && (
         <div>
-          <label className="text-sm font-medium text-gray-700 block mb-2">
+          <p className="mb-2 block text-sm font-medium text-gray-700">
             Select on Map
-          </label>
+          </p>
           <div
             ref={mapRef}
-            className="w-full rounded-lg border border-gray-300 shadow-sm"
-            style={{ minHeight: "320px" }}
+            className="h-80 w-full overflow-hidden rounded-xl border border-slate-300 shadow-lg shadow-slate-900/10"
           />
           <p className="text-xs text-gray-500 mt-2">
             Click on the map to select a location
